@@ -16,7 +16,6 @@ def select_best_combination(y, x, metric, greater_is_better=False):
             results = ols.fit()
             res.loc[factor] = getattr(results, metric)
 
-        
         if (greater_is_better):
             res = res.sort_values(ascending=False)
             if res.iloc[0] > metric_base:
@@ -31,8 +30,6 @@ def select_best_combination(y, x, metric, greater_is_better=False):
                 metric_base = res.iloc[0]
             else:
                 break
-
-
     return current_factors
 
 
@@ -41,14 +38,10 @@ df = pd.read_csv('Life_Data.txt')
 fill = df.median(axis=0)
 df   = df.fillna(value=fill)
 
-X = df.drop(columns=['Life expectancy']).copy()
-y = df['Life expectancy'].copy()
+X = add_constant(df.drop(columns=['Life expectancy']))
+y = df['Life expectancy']
 
 aic_factors = select_best_combination(y, X, 'aic')
-
-X = add_constant(df.drop(columns=['Life expectancy'])).copy()
-y = df['Life expectancy'].copy()
-
 ar2_factors = select_best_combination(y, X, 'rsquared_adj', True)
 
 print(np.abs(len(ar2_factors) - len(aic_factors)))
