@@ -1,5 +1,5 @@
 from pandas import read_csv
-from scipy.stats import shapiro, f_oneway, kruskal 
+from scipy.stats import shapiro, f_oneway, kruskal
 
 data = read_csv("Pharmacy.txt")
 x, y, z = data['x'], data['y'], data['z']
